@@ -21,7 +21,8 @@
       "mcp__archon",
       "WebSearch",
       "Bash(cp:*)",
-      "Bash(sed:*)"
+      "Bash(sed:*)",
+      "Bash(test:*)"
     ],
     "deny": []
   }
