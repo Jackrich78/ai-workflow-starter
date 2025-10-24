@@ -108,14 +108,25 @@
 
 ---
 
-## Phase 3: Archon Integration & Stack Profiles
+## Phase 1.5: Archon Task Management ✅
+
+**Status:** COMPLETE
+**Completed:** 2025-10-25
+
+See "Task Integration" section above for full details.
+
+---
+
+## Phase 3: Enhanced Archon Integration & Stack Profiles
 
 **Target:** Q1 2026
 **Status:** Planned
 
-### Full Archon MCP Integration
+### Enhanced Archon MCP Integration
 
-**Currently:** Optional, read-only for research (Researcher agent)
+**Currently (Phase 1.5):**
+- Archon KB for research (Researcher agent)
+- Archon Tasks for workflow tracking (all slash commands)
 
 **Phase 3 Goals:**
 - Bidirectional task synchronization with Archon
@@ -138,14 +149,48 @@
 - Update knowledge base with project learnings
 - Bidirectional sync (project ↔ Archon)
 
-**3. Task Integration** (if Archon task MCP available)
-```
-User creates task in Archon UI
-→ Claude Code syncs via mcp__archon__tasks
-→ Agents work on task following workflow
-→ Update task status in real-time
-→ Mark complete when done
-```
+**3. Task Integration** ✅ COMPLETE (Phase 1.5)
+
+**Current Implementation (Phase 1.5):**
+- Workflow-phase tasks created during `/explore`
+- Task status updated by slash commands (`/plan`, `/build`, `/test`, `/commit`)
+- Feature-as-epic model: 4 tasks per FEAT-XXX
+- One Archon project per repository
+- Graceful degradation when Archon unavailable
+
+**Tasks Per Feature:**
+1. **Explore & Research** - Explorer + Researcher agents
+   - Created: During `/explore`, marked `done` immediately
+   - Links to: prd.md, research.md
+
+2. **Plan Architecture & Tests** - Planner + Reviewer agents
+   - Created: During `/explore` as `todo`
+   - Updated: Marked `done` during `/plan`
+   - Links to: architecture.md, acceptance.md, testing.md, manual-test.md
+
+3. **Build with TDD** - Main Claude agent
+   - Created: During `/explore` as `todo`
+   - Updated: Marked `doing` during `/build`, `review` after build completes
+   - Links to: implementation files + test files
+
+4. **Validate & Commit** - Main Claude agent
+   - Created: During `/explore` as `todo`
+   - Updated: Marked `doing` during `/test`, `done` during `/commit`
+   - Links to: test results + PR/commit
+
+**Design Principles:**
+- Git = Source of Truth (all documentation stays in git)
+- Archon = Tracker (workflow progress only)
+- One project per repo (not per feature)
+- Feature = Epic, Tasks = Workflow phases
+- Graceful degradation (works without Archon)
+
+**Phase 3 Enhancements (Planned):**
+- Bidirectional sync: Start from Archon task → trigger `/explore`
+- Automatic task creation from git commits
+- Burndown charts and velocity tracking
+- Sprint planning integration
+- Real-time collaboration features
 
 **4. Session Persistence** (if Archon memory MCP available)
 ```

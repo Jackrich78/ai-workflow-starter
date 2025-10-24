@@ -102,9 +102,24 @@ This template works standalone but can be enhanced with the Archon MCP for knowl
 ### If Archon MCP is Available:
 
 **Researcher Agent Benefits:**
-- Query pre-crawled framework documentation via `mcp__archon__search`
-- Faster research with cached knowledge base
-- Consistent technical context across sessions
+- Access pre-crawled framework documentation via Archon RAG
+- **Targeted search**: Query specific documentation sources (e.g., only React docs)
+- **Code discovery**: Find implementation examples alongside conceptual docs
+- **Page browsing**: Systematically explore documentation structure
+- **Full-text retrieval**: Read complete pages for deep understanding
+- **Short query optimization**: 2-5 keyword queries get best results
+- Faster research with locally cached knowledge base
+- Consistent technical context across all research sessions
+- Automatic source tracking and citation
+
+**RAG Workflow Example:**
+```
+1. Get sources → Find "FastAPI Documentation" (id: src_123)
+2. Search → rag_search_knowledge_base("dependency injection", "src_123")
+3. Code → rag_search_code_examples("Depends", "src_123")
+4. Deep dive → rag_read_full_page(page_id from results)
+5. Fallback → WebSearch only for gaps
+```
 
 **To Enable Archon:**
 1. Install and configure Archon MCP in Claude Code settings
@@ -112,14 +127,79 @@ This template works standalone but can be enhanced with the Archon MCP for knowl
 3. Researcher agent will automatically detect and use Archon
 4. Falls back to WebSearch if Archon unavailable
 
-**Future Archon Features (Phase 3):**
-- Task synchronization via `mcp__archon__tasks`
-- Session state persistence via `mcp__archon__memory`
-- Collaborative knowledge building
-
 ### Without Archon:
 
 Researcher agent uses WebSearch exclusively - fully functional workflow.
+
+## Archon Task Management (Optional)
+
+This template can integrate with Archon MCP for task tracking alongside git-based documentation.
+
+### Task Management Philosophy
+
+**Git = Source of Truth** for all documentation and code
+**Archon = Tracker** for workflow progress and context
+
+### One Project Per Repository
+
+- Single Archon project represents this repository
+- All features create tasks under one project
+- Project name matches repository folder name
+- Feature tasks use `feature` field for grouping
+
+### Task Structure: Feature as Epic
+
+Each FEAT-XXX is an epic with 4 workflow-phase tasks:
+
+1. **Explore & Research** - Explorer + Researcher agents
+   - Status: `done` after `/explore` completes
+   - Links to: prd.md, research.md
+
+2. **Plan Architecture & Tests** - Planner + Reviewer agents
+   - Status: `done` after `/plan` completes
+   - Links to: architecture.md, acceptance.md, testing.md, manual-test.md
+
+3. **Build with TDD** - Main Claude agent following architecture
+   - Status: `doing` during `/build`, `review` after
+   - Links to: implementation files + test files
+
+4. **Validate & Commit** - Main Claude agent testing + git workflow
+   - Status: `doing` during `/test` + `/commit`, `done` after merge
+   - Links to: test results + PR/commit
+
+### Task Lifecycle
+
+```
+/explore FEAT-XXX
+→ Create 4 tasks in Archon
+→ Mark task 1 "done" (exploration complete)
+
+/plan FEAT-XXX
+→ Mark task 2 "done" (planning complete)
+
+/build FEAT-XXX
+→ Mark task 3 "doing" (building)
+→ Mark task 3 "review" (build complete, needs testing)
+
+/test FEAT-XXX
+→ Validate acceptance criteria
+
+/commit "message"
+→ Mark task 4 "done" (feature complete)
+```
+
+### When Archon Unavailable
+
+All workflows function identically without Archon:
+- Git remains source of truth
+- No task tracking, manual project management instead
+- Graceful degradation with informational warnings
+
+### Future Archon Features (Phase 3)
+
+- Bidirectional sync: Start from Archon task → trigger workflows
+- Session state persistence via Archon memory
+- Collaborative knowledge building across sessions
 
 ## Context Management
 

@@ -115,7 +115,56 @@ The Planner will automatically invoke the Reviewer agent. Wait for validation re
 4. Repeat until PASS
 
 **If Reviewer returns PASS:**
-1. Proceed to documentation update
+1. Proceed to Archon task update (if available)
+2. Then proceed to documentation update
+
+### Step 3.5: Update Archon Task Status (If Available)
+
+If Archon MCP is available and tasks exist for this feature, mark planning complete.
+
+**Find Planning Task:**
+```
+Try to find tasks for this feature:
+  tasks = mcp__archon__find_tasks(filter_by="feature", filter_value="$ARGUMENTS")
+
+If tasks found:
+  Find planning task:
+    planning_task = [t for t in tasks if "Plan Architecture" in t["title"]]
+
+  If planning task exists:
+    Mark as done:
+      mcp__archon__manage_task("update",
+        task_id=planning_task["id"],
+        status="done"
+      )
+```
+
+**Report to User:**
+```
+If task updated successfully:
+  Print:
+    "✅ Marked Archon task complete: $ARGUMENTS - Plan Architecture & Tests"
+    "   Next: Run /build $ARGUMENTS to begin implementation"
+```
+
+**Error Handling (Graceful Degradation):**
+```
+If Archon MCP unavailable:
+  Skip silently, continue to Step 4
+
+If no tasks found for this feature:
+  Skip (user may not have run /explore with Archon)
+  Continue to Step 4
+
+If task update fails:
+  Log warning but continue workflow
+  Never block planning workflow on Archon failures
+```
+
+**Important:**
+- This step is entirely optional
+- Planning workflow must complete successfully with or without Archon
+- Task updates are best-effort only
 
 ### Step 4: Update Documentation Index
 
