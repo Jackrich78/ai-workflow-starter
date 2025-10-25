@@ -27,20 +27,33 @@ This project uses AI agents to maintain comprehensive, up-to-date documentation.
 
 ### Active Features
 
-#### [FEAT-002: User Profile Settings](features/FEAT-002_user_profile_settings/)
-**Status:** Exploring (PRD + Research Complete)
+#### [FEAT-003: Specialist Sub-Agent Creation System](features/FEAT-003_specialist_subagent_creation/)
+**Status:** Implemented ✅
 **Created:** 2025-10-25
-**Purpose:** Enable users to manage profile information, theme preferences, and notification settings
+**Implemented:** 2025-10-25
+**Testing:** Passed (28/28 automated tests, manual validation pending)
+
+**Purpose:** Enable automatic creation and reuse of specialist sub-agents for framework-specific expertise
 
 **Documents:**
-- ✅ [Product Requirements](features/FEAT-002_user_profile_settings/prd.md)
-- ✅ [Research Findings](features/FEAT-002_user_profile_settings/research.md)
-- ⏳ Architecture Decision (pending - run `/plan FEAT-002`)
-- ⏳ Acceptance Criteria (pending)
-- ⏳ Testing Strategy (pending)
-- ⏳ Manual Test Guide (pending)
+- [Product Requirements](features/FEAT-003_specialist_subagent_creation/prd.md)
+- [Research Findings](features/FEAT-003_specialist_subagent_creation/research.md)
+- [Architecture Decision](features/FEAT-003_specialist_subagent_creation/architecture.md)
+- [Acceptance Criteria](features/FEAT-003_specialist_subagent_creation/acceptance.md)
+- [Testing Strategy](features/FEAT-003_specialist_subagent_creation/testing.md)
+- [Manual Test Guide](features/FEAT-003_specialist_subagent_creation/manual-test.md)
+- [Implementation Documentation](features/FEAT-003_specialist_subagent_creation/implementation.md)
+- [Test Report](features/FEAT-003_specialist_subagent_creation/test-report.md) ✅
 
-**Archon Tasks:** [View in Archon](http://localhost:3737) (4 tasks: 1 done, 3 pending)
+**Implementation Files:**
+- Slash Command: [/create-specialist](../.claude/commands/create-specialist.md)
+- Agent: [Specialist Creator](../.claude/subagents/specialist-creator.md)
+- Enhanced: [Explorer](../.claude/subagents/explorer.md), [Researcher](../.claude/subagents/researcher.md), [TEMPLATE.md](../.claude/subagents/TEMPLATE.md)
+
+**Test Coverage:** 28/28 automated tests passed (100%)
+- Library detection: 14/14 tests ✅
+- Filename generation: 14/14 tests ✅
+- Integration points: 8/8 validated ✅
 
 ---
 
@@ -48,22 +61,22 @@ This project uses AI agents to maintain comprehensive, up-to-date documentation.
 
 Core technical documentation for the project:
 
-- **[Architecture Overview](system/architecture.md)** - System design and components
-- **[Database Schema](system/database.md)** - Data model and migrations
-- **[API Specifications](system/api.md)** - Endpoints and contracts
-- **[External Integrations](system/integrations.md)** - Services, MCPs, and third-party APIs
-- **[Technology Stack](system/stack.md)** - Languages, frameworks, tools, and versions
+- [Architecture Overview](system/architecture.md) - System design and components
+- [Database Schema](system/database.md) - Data model and migrations
+- [API Specifications](system/api.md) - Endpoints and contracts
+- [External Integrations](system/integrations.md) - Services, MCPs, and third-party APIs
+- [Technology Stack](system/stack.md) - Languages, frameworks, tools, and versions
 
 ## Standard Operating Procedures
 
 How we work - standards enforced by agents:
 
-- **[SOP Template](sop/sop-template.md)** - How to write SOPs
-- **[Git Workflow](sop/git-workflow.md)** - Branching, commits, and PRs
-- **[Testing Strategy](sop/testing-strategy.md)** - TDD approach and test levels
-- **[Code Style](sop/code-style.md)** - Code quality and formatting standards
-- **[Lessons Learned](sop/mistakes.md)** - Documented mistakes and prevention
-- **[GitHub Setup](sop/github-setup.md)** - Repository configuration guide
+- [SOP Template](sop/sop-template.md) - How to write SOPs
+- [Git Workflow](sop/git-workflow.md) - Branching, commits, and PRs
+- [Testing Strategy](sop/testing-strategy.md) - TDD approach and test levels
+- [Code Style](sop/code-style.md) - Code quality and formatting standards
+- [Lessons Learned](sop/mistakes.md) - Documented mistakes and prevention
+- [GitHub Setup](sop/github-setup.md) - Repository configuration guide
 
 ## Templates
 
@@ -84,11 +97,61 @@ Use these slash commands to work with documentation:
 - `/explore [topic]` - Start feature exploration, creates PRD and research
 - `/plan [FEAT-ID]` - Create planning docs (architecture, acceptance, testing)
 - `/update-docs` - Regenerate this index, validate links, update CHANGELOG
+- `/create-specialist [library-name] [scope]` - Create specialist sub-agent ✅
 
 ### Coming in Phase 2
 - `/build [FEAT-ID]` - Implement feature based on plans
 - `/test [FEAT-ID]` - Run tests and validate implementation
 - `/commit [message]` - Git workflow with validation
+
+## Specialist Sub-Agents
+
+**NEW in FEAT-003:** Create reusable domain experts for libraries and frameworks.
+
+### What Are Specialists?
+
+Specialist sub-agents provide targeted, domain-specific expertise for:
+- **Libraries:** Supabase, PydanticAI, Prisma, etc.
+- **Frameworks:** FastAPI, Next.js, Django, etc.
+- **Categories:** Database, Security, Authentication, etc.
+
+### How to Create Specialists
+
+**Automatic Detection (Recommended):**
+- Run `/explore [topic]` and mention libraries during Q&A
+- Explorer detects libraries and suggests specialist creation
+- Choose narrow (library-specific) or broad (category-wide) scope
+- Specialist created in <2 minutes with auto-populated content
+
+**Manual Creation:**
+```
+/create-specialist Supabase           # Narrow scope (Supabase only)
+/create-specialist PydanticAI narrow  # Explicit narrow scope
+/create-specialist Database broad     # Broad scope (Postgres, Supabase, etc.)
+```
+
+### How Specialists Are Used
+
+Specialists are automatically invoked by:
+- **Explorer:** During Q&A for library-specific questions
+- **Researcher:** During research for targeted domain knowledge
+- **Main Agent:** Direct invocation for framework expertise
+
+**Knowledge Cascade:**
+1. Archon RAG (if available) - Pre-crawled documentation
+2. WebSearch (fallback) - Current docs and examples
+3. User Input (last resort) - Manual expertise
+
+### Specialist Storage
+
+All specialists stored in [.claude/subagents/](../.claude/subagents/) directory:
+- **Naming:** `[library-name]-specialist.md` (kebab-case)
+- **Lifecycle:** Permanent per project, reusable across features
+- **Indexing:** Listed in `.claude/subagents/README.md`
+
+### Available Specialists
+
+*No specialists created yet - create your first with `/create-specialist`*
 
 ## Documentation Standards
 
@@ -96,12 +159,12 @@ Use these slash commands to work with documentation:
 
 All features require these 6 documents before implementation:
 
-1. **PRD (prd.md)**: Problem, goals, user stories, scope
-2. **Research (research.md)**: Findings, recommendations, sources
-3. **Architecture (architecture.md)**: Options, comparison, decision
-4. **Acceptance (acceptance.md)**: Given/When/Then criteria
-5. **Testing (testing.md)**: Test strategy, test stubs
-6. **Manual Test (manual-test.md)**: Human testing guide
+1. **PRD (prd.md):** Problem, goals, user stories, scope
+2. **Research (research.md):** Findings, recommendations, sources
+3. **Architecture (architecture.md):** Options, comparison, decision
+4. **Acceptance (acceptance.md):** Given/When/Then criteria
+5. **Testing (testing.md):** Test strategy, test stubs
+6. **Manual Test (manual-test.md):** Human testing guide
 
 ### Quality Criteria
 
@@ -136,12 +199,14 @@ Completed or deprecated features move to `docs/archive/` to keep this index clea
 
 *No archived features yet*
 
-## Archon MCP Integration (Optional)
+## Archon MCP Integration
 
-**Phase 1.5 Complete** - This template now includes optional Archon MCP integration for:
+**Status:** Complete ✅
+
+This template includes optional Archon MCP integration for:
 
 ### Knowledge Base (RAG)
-- **Researcher Agent** can query pre-crawled framework documentation
+- Researcher Agent can query pre-crawled framework documentation
 - Targeted search by documentation source
 - Code example discovery
 - Falls back to WebSearch gracefully
@@ -165,18 +230,13 @@ See [future-enhancements.md](future-enhancements.md) for Phase 2/3 roadmap:
 
 ## Navigation
 
-- **[← Back to Root README](../README.md)** - Project overview
-- **[→ CLAUDE.md](../CLAUDE.md)** - Agent system and workflows
-- **[→ AC.md](../AC.md)** - Global acceptance criteria
-- **[→ CHANGELOG.md](../CHANGELOG.md)** - Project changelog
+- [← Back to Root README](../README.md) - Project overview
+- [→ CLAUDE.md](../CLAUDE.md) - Agent system and workflows
+- [→ AC.md](../AC.md) - Global acceptance criteria
+- [→ CHANGELOG.md](../CHANGELOG.md) - Project changelog
 
 ---
 
 **Note:** This index is auto-generated. Don't edit manually - run `/update-docs` instead.
 
 **Last generated:** 2025-10-25 by Documenter agent
-
-**Recent Updates:**
-- Phase 1.5 complete: Archon MCP integration (RAG + Task Management)
-- Researcher agent updated with modern RAG tools
-- Task management across all workflow commands

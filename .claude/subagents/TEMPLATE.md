@@ -190,6 +190,37 @@ These defaults ensure the agent can work autonomously while remaining transparen
 
 ---
 
+## Specialist Sub-Agents
+
+When using this template for **specialist sub-agents** (library/framework experts created via `/create-specialist`):
+
+**Auto-Population Sources:**
+- Use Archon RAG, WebSearch, and User input to populate sections
+- Prioritize official documentation and maintained sources
+- Target <2 minutes total creation time (30s template + 90s research)
+
+**Key Sections for Specialists:**
+- **Core Responsibilities**: 3-5 library-specific expertise areas
+- **Common Patterns**: Framework-specific patterns from official docs
+- **Known Gotchas**: Pitfalls, workarounds, and anti-patterns
+- **Integration Points**: How to use with other tools/frameworks
+- **Tools Access**: Typically Archon RAG, WebSearch, Read, Write
+
+**Naming Conventions:**
+- Filename: `[library-name]-specialist.md` (kebab-case)
+- Name field: `[Library] Specialist`
+- Example: `pydantic-ai-specialist.md` → "PydanticAI Specialist"
+
+**Knowledge Sources:**
+Document research sources used for auto-population:
+- Archon RAG: List specific sources queried
+- WebSearch: Note URLs and retrieval dates
+- User Input: Flag manual sections added
+
+See [Specialist Creator Agent](specialist-creator.md) for automated creation workflow.
+
+---
+
 **Template Version:** 1.0.0
-**Last Updated:** 2025-10-24
+**Last Updated:** 2025-10-25
 **Status:** [Active/Stub/Planned]

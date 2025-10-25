@@ -1,7 +1,7 @@
 ---
 name: researcher
 description: Deep research specialist that investigates technical approaches using optional Archon MCP and WebSearch to answer open questions from PRDs
-tools: Read, WebSearch, mcp__archon__rag_get_available_sources, mcp__archon__rag_search_knowledge_base, mcp__archon__rag_search_code_examples, mcp__archon__rag_list_pages_for_source, mcp__archon__rag_read_full_page, Write
+tools: Read, WebSearch, Task, Glob, mcp__archon__rag_get_available_sources, mcp__archon__rag_search_knowledge_base, mcp__archon__rag_search_code_examples, mcp__archon__rag_list_pages_for_source, mcp__archon__rag_read_full_page, Write
 phase: 1
 status: active
 color: orange
@@ -149,6 +149,87 @@ Conduct comprehensive technical research to answer open questions from PRDs, doc
 2. Extract all open questions from PRD
 3. Identify implicit research needs (frameworks, patterns, security)
 4. Prioritize by impact on planning
+
+### Phase 1.5: Check for Existing Specialist Sub-Agents
+
+**FEAT-003 Enhancement:** Detect if specialist sub-agents exist for libraries mentioned in PRD and invoke them for targeted research.
+
+1. **Scan PRD for Library Mentions:**
+   - Extract library/framework names from PRD (Problem Statement, User Stories, Open Questions)
+   - Use same regex patterns as Explorer for consistency:
+     - Supabase, PostgreSQL, FastAPI, PydanticAI, Next.js, React, Django, etc.
+
+2. **Check for Existing Specialists:**
+   - Use Glob to find specialists: `.claude/subagents/*-specialist.md`
+   - Match detected libraries against existing specialist files
+   - Example: If PRD mentions "Supabase", check for `supabase-specialist.md`
+
+3. **Plan Specialist Invocation:**
+   - For each matching specialist found:
+     * Note library-specific questions that specialist can answer
+     * Prepare targeted questions for specialist
+     * Example: If Supabase specialist exists and PRD asks "database schema design", delegate to Supabase specialist
+
+4. **Invoke Specialist for Targeted Research:**
+   - Use Task tool to invoke specialist as subordinate:
+   ```
+   Task(
+     subagent_type="general-purpose",
+     description="Get [Library] domain expertise",
+     prompt="""
+     You are the [Library] Specialist. Answer this targeted question: [question]
+
+     Context from PRD:
+     - Feature: [Feature description]
+     - Use case: [Relevant user story]
+     - Constraints: [Any constraints from PRD]
+
+     Provide:
+     - Specific patterns or best practices for this use case
+     - Code examples if applicable
+     - Common gotchas to avoid
+     - Integration guidance with other tools
+
+     @.claude/subagents/[library]-specialist.md
+     """
+   )
+   ```
+
+5. **Integrate Specialist Findings:**
+   - Receive specialist response
+   - Integrate into research.md under relevant topic
+   - Cite specialist: "Per [Library] Specialist (domain expert, 2025-10-25)"
+   - Supplement with general research if needed
+
+6. **Fallback to General Research:**
+   - If no specialist exists: Use Archon RAG → WebSearch as normal
+   - If specialist exists but question too broad: Use both specialist + general research
+   - Document in research.md whether specialist was consulted
+
+**When to Invoke Specialists:**
+
+Invoke when:
+- ✅ Specialist exists for library mentioned in PRD
+- ✅ Question is library-specific (not generic architecture)
+- ✅ Specialist can provide targeted, actionable guidance
+
+Don't invoke when:
+- ❌ No specialist exists (use general research)
+- ❌ Question is too generic ("What is authentication?")
+- ❌ Question spans multiple unrelated libraries
+
+**Example Specialist Invocation Flow:**
+
+```
+PRD mentions: "Use Supabase for authentication storage"
+Open Question: "What's the best schema design for auth with Supabase?"
+
+1. Glob finds: .claude/subagents/supabase-specialist.md
+2. Invoke specialist with targeted question about RLS and auth schema
+3. Specialist returns: Row-level security patterns, auth.users integration, best practices
+4. Integrate into research.md under "Database Schema Design" topic
+5. Supplement with general security research if needed
+```
 
 ### Phase 2: Research Execution
 1. Check Archon MCP availability

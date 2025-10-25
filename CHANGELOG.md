@@ -15,7 +15,17 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
   - One Archon project per repository model
   - Feature-as-epic: 4 workflow-phase tasks per FEAT-XXX
   - Graceful degradation when Archon unavailable
-- **FEAT-002: User Profile Settings** - Exploration phase complete ([docs](docs/features/FEAT-002_user_profile_settings/))
+- **FEAT-003: Specialist Sub-Agent Creation System** ✅ - Implementation and testing complete ([docs](docs/features/FEAT-003_specialist_subagent_creation/))
+  - **Slash Command:** `/create-specialist [library-name] [scope]` for creating specialist sub-agents
+  - **Specialist Creator Agent:** Auto-populates specialists in <2 minutes (template + research)
+  - **Explorer Enhancement:** Library detection and specialist suggestion after PRD creation
+  - **Researcher Enhancement:** Specialist invocation for targeted domain research
+  - **TEMPLATE.md Enhancement:** Specialist creation guidance and conventions
+  - **Test Report:** 28/28 automated tests passed (100% coverage) - [view report](docs/features/FEAT-003_specialist_subagent_creation/test-report.md)
+  - Knowledge cascade: Archon RAG → WebSearch → User input
+  - 24 acceptance criteria met across creation, integration, and workflow
+  - Documentation-based implementation (markdown files only, Phase 1 compliant)
+  - Ready for manual runtime testing
 
 ### Changed
 - Researcher agent updated from deprecated `mcp__archon__search` to modern RAG tools
