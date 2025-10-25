@@ -8,6 +8,45 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ## [Unreleased]
 
 ### Added
+- **Phase 1.5: Archon MCP Integration** ✅
+  - RAG knowledge base integration for Researcher agent
+  - 5 modern RAG tools (get_sources, search_kb, search_code, list_pages, read_page)
+  - Task management across all workflow commands (/explore, /plan, /build, /test, /commit)
+  - One Archon project per repository model
+  - Feature-as-epic: 4 workflow-phase tasks per FEAT-XXX
+  - Graceful degradation when Archon unavailable
+- **FEAT-002: User Profile Settings** - Exploration phase complete ([docs](docs/features/FEAT-002_user_profile_settings/))
+
+### Changed
+- Researcher agent updated from deprecated `mcp__archon__search` to modern RAG tools
+- Framework-agnostic examples (no specific tool bias)
+- CLAUDE.md expanded with Archon integration documentation
+- All slash commands now update Archon task status
+- future-enhancements.md updated to reflect Phase 1.5 completion
+
+### Phase Roadmap
+- Phase 1 (Complete): Planning & Documentation ✅
+- **Phase 1.5 (Complete): Archon Integration** ✅
+- Phase 2 (Next): Implementation workflow (main agent), testing automation, git workflow
+- Phase 3 (Future): Enhanced Archon (bidirectional sync), stack profiles, advanced automation
+
+## [1.0.1] - 2025-10-25
+
+### Added
+- Archon MCP RAG integration for knowledge base searches
+- Archon task management across workflow
+- Targeted documentation search by source
+- Code example discovery capabilities
+- Task lifecycle tracking (todo → doing → review → done)
+
+### Changed
+- Researcher agent tools updated to modern RAG API
+- Examples made framework-agnostic
+- Documentation index updated with Archon features
+
+## [1.0.0] - 2025-10-24
+
+### Added
 - Initial AI Workflow Starter template v1.0.0
 - Phase 1: Planning & Documentation system
 - 5 specialized sub-agents (Explorer, Researcher, Planner, Documenter, Reviewer)
@@ -19,11 +58,6 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - FEAT-001 example feature demonstrating complete workflow
 - Comprehensive README and documentation index
 - Test-driven development support with test stub generation
-
-### Phase Roadmap
-- Phase 1 (Current): Planning & Documentation - Complete ✅
-- Phase 2 (Next): Implementation workflow (main agent), testing automation, git workflow
-- Phase 3 (Future): Full Archon integration, stack profiles, advanced automation
 
 ## [1.0.0] - 2025-10-24
 
