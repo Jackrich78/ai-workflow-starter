@@ -20,7 +20,12 @@ Read these files:
 
 Extract: project goal, stack, any critical constraints.
 
-### Step 2: Check Git State
+### Step 2: Check directory structure
+```bash
+tree -L 3
+```
+
+### Step 3: Check Git State
 
 ```bash
 git branch --show-current
@@ -28,7 +33,7 @@ git status --short
 git log --oneline -3
 ```
 
-### Step 3: Scan Features
+### Step 4: Scan Features
 
 ```bash
 ls -1 docs/features/
@@ -36,7 +41,7 @@ ls -1 docs/features/
 
 Just list the FEAT-XXX directories. Don't read full docs.
 
-### Step 4: Query Archon (Optional)
+### Step 5: Query Archon (Optional)
 
 If Archon MCP available, search for recent tasks:
 ```
@@ -45,7 +50,7 @@ mcp__archon__find_tasks(filter_by="project", limit=5)
 
 If unavailable or fails, skip silently.
 
-### Step 5: Present Summary
+### Step 6: Present Summary
 
 ```
 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
