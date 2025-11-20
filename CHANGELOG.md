@@ -26,6 +26,22 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
   - 24 acceptance criteria met across creation, integration, and workflow
   - Documentation-based implementation (markdown files only, Phase 1 compliant)
   - Ready for manual runtime testing
+- **FEAT-004: Slack Block Kit Claude Skill** 🚧 - Planning phase complete ([docs](docs/features/FEAT-004_slack_blockkit_skill/))
+  - **Comprehensive Planning Documentation:**
+    - PRD with 4 user stories covering N8N, Python, and team use cases
+    - Deep research on 13 official Slack Block Kit block types (corrected from misconception of 15)
+    - Architecture: Progressive disclosure pattern with main Skill (500 line limit) + 7 supporting docs
+    - 23 acceptance criteria across message, modal, home tab, variable templating, and integration testing
+    - Testing strategy with 4 test levels: Skill quality, external validation, real-world integration, manual testing
+    - Manual testing guide with 8 comprehensive test scenarios
+  - **Key Design Decisions:**
+    - 13 official Block Kit block types (section, header, image, video, markdown, rich_text, divider, context, file, table, actions, input, context_actions)
+    - Elements (buttons, select menus, date pickers, etc.) are interactive components within blocks, not separate block types
+    - Support for N8N Jinja2 variables and Python f-strings/format strings
+    - Three surfaces: Messages (50-block limit), Modals (100-block limit, form patterns), Home Tabs (100-block limit, dashboard patterns)
+    - Single-step modals only in v1 (multi-step deferred to v2)
+    - No external dependencies; all examples embedded or in supporting docs
+  - **Ready for Phase 2:** Implementation can begin using architecture and acceptance criteria as blueprint
 
 ### Changed
 - Researcher agent updated from deprecated `mcp__archon__search` to modern RAG tools

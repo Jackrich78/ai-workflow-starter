@@ -123,6 +123,79 @@ Given user response contains library name, when library detection regex applied,
 
 ---
 
+### FEAT-004: Slack Block Kit Claude Skill
+
+**AC-FEAT-004-001:** Basic Message Generation
+Given I ask Claude to generate a message with sections and buttons, when Claude generates Block Kit JSON using the Skill, then the JSON is syntactically valid (passes JSON parser), validates in Block Kit Builder without errors, and uses only block types valid for message surfaces.
+
+**AC-FEAT-004-002:** Message Block Limit
+Given I request a complex message with many blocks, when Claude generates the JSON, then the Skill warns if block count approaches or exceeds 50 blocks (message limit), the JSON structure respects the 50-block maximum, and suggestions are provided for condensing content if over limit.
+
+**AC-FEAT-004-003:** All 13 Block Types Coverage
+Given I ask for any of the 13 official Slack Block Kit block types (section, header, image, video, markdown, rich_text, divider, context, file, table, actions, input, context_actions), when Claude generates JSON using the Skill, then the Skill provides correct syntax for the requested block type, the block renders correctly in Block Kit Builder, and examples are available in supporting documentation.
+
+**AC-FEAT-004-004:** Single-Step Modal Generation
+Given I request a modal with input blocks and buttons, when Claude generates the modal JSON, then the JSON includes valid `type: modal` structure, includes `title`, `submit`, `close`, and `blocks` fields, input blocks have unique `block_id` and `action_id` values, and the modal validates in Block Kit Builder.
+
+**AC-FEAT-004-005:** Modal Block Limit
+Given I request a modal with many input fields, when Claude generates the JSON, then the Skill warns if block count approaches or exceeds 100 blocks (modal limit), and the JSON structure respects the 100-block maximum.
+
+**AC-FEAT-004-006:** Multi-Step Modal Limitation (v1)
+Given I request a multi-step modal workflow, when Claude responds using the Skill, then the Skill indicates multi-step modals (previous_view_id) are not supported in v1, suggests single-step modal alternatives, and documents v2 roadmap for multi-step support.
+
+**AC-FEAT-004-007:** Home Tab Generation
+Given I request a home tab dashboard with multiple sections, when Claude generates the JSON, then the JSON includes valid `type: home` structure, uses blocks appropriate for home tabs (non-interactive focus), validates in Block Kit Builder, and respects 100-block maximum.
+
+**AC-FEAT-004-008:** Home Tab Use Cases
+Given I ask for common home tab patterns (task list, profile, onboarding), when Claude generates the JSON, then the Skill references examples from supporting documentation, generated JSON matches appropriate use case pattern, and examples include real-world context (not abstract placeholders).
+
+**AC-FEAT-004-009:** N8N Jinja2 Variable Syntax
+Given I mention N8N or request Jinja2 templating guidance, when Claude responds using the Skill, then the Skill documents N8N Jinja2 syntax: `{{$node.data.field}}`, shows example JSON with Jinja2 placeholders, explains that N8N substitutes variables at runtime, and provides working example that can be tested in N8N.
+
+**AC-FEAT-004-010:** Python Variable Syntax
+Given I mention Python or request Python templating guidance, when Claude responds using the Skill, then the Skill documents Python f-string syntax: `f"text {variable}"`, documents .format() method: `"text {}".format(variable)`, documents Jinja2 library option for Python, shows example Python code that generates Block Kit JSON, and examples are runnable Python code (not pseudocode).
+
+**AC-FEAT-004-011:** Variable Substitution Clarity
+Given I ask how to use variables in Block Kit, when Claude responds using the Skill, then the Skill clearly states: "This Skill shows template placeholders only", clearly states: "Variable substitution happens in N8N/Python, not by Claude", and provides side-by-side comparison: template → substituted result.
+
+**AC-FEAT-004-012:** Invalid JSON Request Handling
+Given I ask for JSON that violates Block Kit rules (e.g., input blocks in messages), when Claude responds using the Skill, then the Skill warns about the violation, explains which block types are valid for which surfaces, and suggests valid alternatives.
+
+**AC-FEAT-004-013:** Block Kit Builder Integration
+Given I generate any Block Kit JSON with the Skill, when I copy the JSON into Block Kit Builder (https://api.slack.com/tools/block-kit-builder), then the JSON parses without syntax errors, renders visually in the preview pane, and passes Block Kit Builder validation (green checkmark).
+
+**AC-FEAT-004-014:** Missing Required Fields
+Given Claude generates Block Kit JSON, when the JSON includes blocks with required fields (e.g., text in section), then all required fields are present, optional fields are shown with examples but not always included, and the Skill documents which fields are required vs optional.
+
+**AC-FEAT-004-015:** Skill Size & Block Type Coverage Limit
+Given the main SKILL.md file, when I count the total lines and review block type coverage, then the file is at or under 500 lines, supporting documentation files supplement without counting toward limit, and the Skill covers all 13 official Slack Block Kit block types (not confused with elements).
+
+**AC-FEAT-004-016:** No External Dependencies
+Given the Skill is in use, when Claude generates Block Kit JSON, then no external API calls are made, no web searches are required for basic functionality, and all examples are embedded in Skill or supporting docs.
+
+**AC-FEAT-004-017:** Multi-Model Compatibility
+Given the Skill is tested with Haiku, Sonnet, and Opus models, when each model uses the Skill to generate Block Kit JSON, then all models produce valid JSON that passes Block Kit Builder validation, and quality is consistent across models (no model-specific bugs).
+
+**AC-FEAT-004-018:** Example Accuracy
+Given the Skill includes Block Kit examples, when examples are traced to their source, then all examples are manually copied from Block Kit Builder, have been validated to render correctly, and no examples are synthesized or assumed (100% real examples).
+
+**AC-FEAT-004-019:** N8N Integration Testing
+Given JSON generated by the Skill with N8N Jinja2 variables, when I use the JSON in a real N8N workflow, then N8N parses the JSON without errors, substitutes variables correctly at runtime, and the message/modal/home tab displays correctly in Slack.
+
+**AC-FEAT-004-020:** Python Integration Testing
+Given Python code examples from the Skill, when I run the Python code with test data, then the code executes without syntax errors, generates valid Block Kit JSON, and the JSON validates in Block Kit Builder.
+
+**AC-FEAT-004-021:** Block Kit Builder Copyability
+Given any JSON output from the Skill, when I copy and paste the JSON into Block Kit Builder, then no manual formatting is required (JSON is properly formatted), the JSON is immediately usable (no syntax cleanup needed), and Block Kit Builder link is provided in Skill output.
+
+**AC-FEAT-004-022:** Supporting Documentation Structure
+Given the Skill uses progressive disclosure architecture, when I examine the file structure, then the following supporting docs exist: `docs/blocks-reference.md` (all 13 block types), `docs/elements-guide.md` (interactive elements), `docs/composition-objects.md` (text objects, option groups), `docs/surfaces.md` (messages, modals, home tabs), `docs/variables-and-templating.md` (N8N and Python), `docs/examples.md` (real-world use cases), `docs/best-practices.md` (validation, accessibility).
+
+**AC-FEAT-004-023:** On-Demand Documentation Loading
+Given a user asks about a specific block type or pattern, when Claude responds using the Skill, then Claude references the appropriate supporting doc, loads only the relevant section (not entire doc), and response stays focused and concise.
+
+---
+
 **Note:** This file is append-only. Criteria are added by agents during `/plan` command and should not be manually edited or removed.
 
-**Last Updated:** 2025-10-24
+**Last Updated:** 2025-11-20
