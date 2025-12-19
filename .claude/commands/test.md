@@ -145,21 +145,6 @@ This command guides the **main Claude Code agent** through running tests and val
 15. If all tests pass:
     - Congratulate success
     - Suggest next step (/commit or manual testing)
-    - Update Archon task (if available):
-      If Archon MCP available and FEAT-XXX tests:
-        Find validation task:
-          tasks = mcp__archon__find_tasks(filter_by="feature", filter_value="FEAT-XXX")
-          validate_task = [t for t in tasks if "Validate & Commit" in t["title"]]
-
-        Mark as doing:
-          mcp__archon__manage_task("update",
-            task_id=validate_task["id"],
-            status="doing"
-          )
-
-        Print:
-          "✅ Tests passed - validation in progress"
-          "   Next: Run /commit to complete feature"
 
 16. If tests fail:
     - Show failing tests with errors

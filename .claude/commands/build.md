@@ -21,37 +21,6 @@ Before running `/build FEAT-XXX`, ensure:
 - ✅ Test stubs created in `tests/` directory
 - ✅ Reviewer validation passed
 
-## Archon Task Management (If Available)
-
-Before starting build, update task status in Archon to track progress.
-
-**Mark Build Task as "Doing":**
-```
-If Archon MCP available:
-  Try to find tasks for this feature:
-    tasks = mcp__archon__find_tasks(filter_by="feature", filter_value="FEAT-XXX")
-
-  If tasks found:
-    Find build task:
-      build_task = [t for t in tasks if "Build with TDD" in t["title"]]
-
-    If build task exists:
-      Mark as doing:
-        mcp__archon__manage_task("update",
-          task_id=build_task["id"],
-          status="doing"
-        )
-
-      Print:
-        "🔨 Started: FEAT-XXX - Build with TDD"
-        "   Status: doing"
-```
-
-**Error Handling:**
-- If Archon unavailable: Skip silently
-- If no tasks found: Skip (continue build normally)
-- Never block build workflow on task update failures
-
 ## TDD Workflow: Red-Green-Refactor
 
 ### Phase 1: RED - Failing Tests
@@ -187,22 +156,6 @@ If Archon MCP available:
     - Test results (number passed)
     - Acceptance criteria status
     - Next steps (manual testing, commit, deploy)
-
-19. Update Archon task (if available):
-    If Archon MCP available:
-      Find build task:
-        tasks = mcp__archon__find_tasks(filter_by="feature", filter_value="FEAT-XXX")
-        build_task = [t for t in tasks if "Build with TDD" in t["title"]]
-
-      Mark as review:
-        mcp__archon__manage_task("update",
-          task_id=build_task["id"],
-          status="review"
-        )
-
-      Print:
-        "✅ Build complete - marked for review"
-        "   Next: Run /test FEAT-XXX to validate"
 ```
 
 ## Example Usage

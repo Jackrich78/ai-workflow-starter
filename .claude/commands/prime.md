@@ -41,16 +41,7 @@ ls -1 docs/features/
 
 Just list the FEAT-XXX directories. Don't read full docs.
 
-### Step 5: Query Archon (Optional)
-
-If Archon MCP available, search for recent tasks:
-```
-mcp__archon__find_tasks(filter_by="project", limit=5)
-```
-
-If unavailable or fails, skip silently.
-
-### Step 6: Present Summary
+### Step 5: Present Summary
 
 ```
 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━

@@ -245,7 +245,7 @@ Archon provides Claude Code with:
 - Stop - Show git status, suggest commit
 
 ### 🔮 Phase 3: Automation & Profiles (FUTURE)
-- Full Archon task sync (bidirectional)
+- Enhanced Archon RAG integration
 - Stack-specific profiles (React, FastAPI, Rust, etc.)
 - CI/CD templates
 - Monitoring and metrics

@@ -11,7 +11,7 @@ This document lists all external services, APIs, and integrations used by the pr
 
 ### Archon (Optional)
 
-**Purpose:** Knowledge management and task tracking
+**Purpose:** Knowledge management (RAG)
 
 **Status:** Optional - not required for Phase 1
 
@@ -21,8 +21,7 @@ This document lists all external services, APIs, and integrations used by the pr
 - Connection: Configure in Claude Code settings
 
 **Usage:**
-- Researcher agent queries framework documentation
-- Future: Task synchronization (Phase 3)
+- Researcher agent queries framework documentation via RAG
 - Future: Session state persistence (Phase 3)
 
 **See Also:** [CLAUDE.md](../../CLAUDE.md#archon-integration-optional)

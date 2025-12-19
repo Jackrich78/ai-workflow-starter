@@ -60,6 +60,41 @@ After Explorer completes:
 3. Confirm the feature slug (FEAT-XXX) is appropriate
 4. Verify open questions are captured
 
+### Step 3.5: Challenger Review (Inline)
+
+Before proceeding to research, apply Challenger review to the PRD.
+
+**Challenger Focus at PRD Stage**: Assumptions and scope (not architecture yet)
+
+**Review the PRD for**:
+1. **Unvalidated assumptions**: Requirements stated as fact without evidence
+2. **Scope creep**: Features beyond the original problem ("also", "additionally")
+3. **YAGNI indicators**: Features that might not be needed
+4. **Simpler alternatives**: Could this be solved without new code?
+
+**Two-Tier Response**:
+
+**Tier 1 (Agent-fixable)**: If issues found, tell Explorer to fix:
+```
+CHALLENGER FEEDBACK:
+
+Issue: [Specific problem]
+Fix: [Exact change needed]
+
+Please update PRD and re-submit.
+```
+→ Explorer updates PRD → Continue to Step 4
+
+**Tier 2 (Human-required)**: If genuine trade-offs exist, ask user:
+```
+Use AskUserQuestion with 2-3 options explaining trade-offs
+```
+→ Incorporate user's choice into PRD → Continue to Step 4
+
+**No Issues?** Say "No major concerns with PRD scope. Proceeding to research." → Continue to Step 4
+
+**Keep it fast**: PRD review should take <30 seconds. Focus on 1-3 things that matter.
+
 ### Step 4: Invoke Researcher Agent
 
 Use the Task tool to invoke the Researcher agent:
@@ -124,119 +159,6 @@ Task(
   """
 )
 ```
-
-### Step 7: Create Archon Tasks (If Available)
-
-If Archon MCP is available, create task tracking for this feature.
-
-**Detect Repository Name:**
-```
-Use basename of current directory as project name (e.g., "ai-workflow-starter")
-Optionally detect GitHub URL from: git remote get-url origin
-```
-
-**Find or Create Main Project:**
-```
-Try to find existing project:
-  projects = mcp__archon__find_projects(query=<repo_name>)
-
-If not found, create it:
-  project = mcp__archon__manage_project("create",
-    title=<repo_name>,
-    description=f"AI-assisted software development for {repo_name}",
-    github_repo=<git_remote_url if available>
-  )
-```
-
-**Create 4 Workflow-Phase Tasks:**
-
-```
-Extract FEAT-XXX from feature directory name (e.g., "FEAT-001")
-
-Task 1: Exploration (mark done immediately - already complete!)
-  mcp__archon__manage_task("create",
-    project_id=project.id,
-    title=f"{FEAT-XXX} - Explore & Research",
-    description=f"Understand requirements and research technical approaches\n\nDocs: docs/features/{FEAT-XXX}/prd.md, research.md",
-    status="done",
-    task_order=100,
-    feature=FEAT-XXX,
-    assignee="Explorer+Researcher"
-  )
-
-Task 2: Planning
-  mcp__archon__manage_task("create",
-    project_id=project.id,
-    title=f"{FEAT-XXX} - Plan Architecture & Tests",
-    description=f"Create architecture decision, acceptance criteria, and test strategy\n\nDocs: docs/features/{FEAT-XXX}/architecture.md, acceptance.md, testing.md, manual-test.md",
-    status="todo",
-    task_order=90,
-    feature=FEAT-XXX,
-    assignee="Planner+Reviewer"
-  )
-
-Task 3: Build
-  mcp__archon__manage_task("create",
-    project_id=project.id,
-    title=f"{FEAT-XXX} - Build with TDD",
-    description=f"Implement feature following TDD: Red-Green-Refactor\n\nSee: docs/features/{FEAT-XXX}/architecture.md for approach",
-    status="todo",
-    task_order=80,
-    feature=FEAT-XXX,
-    assignee="Claude Code"
-  )
-
-Task 4: Validate & Ship
-  mcp__archon__manage_task("create",
-    project_id=project.id,
-    title=f"{FEAT-XXX} - Validate & Commit",
-    description=f"Run tests, validate acceptance criteria, commit with conventional format\n\nSee: docs/features/{FEAT-XXX}/acceptance.md",
-    status="todo",
-    task_order=70,
-    feature=FEAT-XXX,
-    assignee="Claude Code"
-  )
-```
-
-**Error Handling (Graceful Degradation):**
-
-```
-If Archon MCP tools not available:
-  Print informational message:
-    "ℹ️  Archon MCP not available - skipping task creation"
-    "   Feature tracking will be manual via git and docs/"
-  Continue workflow normally (do not fail)
-
-If project creation fails:
-  Log warning, continue without tasks
-  Do not block exploration workflow
-
-If individual task creation fails:
-  Log which tasks were created successfully
-  Continue with remaining tasks
-```
-
-**Report to User:**
-
-```
-If tasks created successfully:
-  Print summary:
-    "✅ Created 4 workflow tasks in Archon project '{repo_name}'"
-    "   View at: http://localhost:3737"
-    ""
-    "Task Status:"
-    "  ✓ Task 1: {FEAT-XXX} - Explore & Research (done)"
-    "  ○ Task 2: {FEAT-XXX} - Plan Architecture & Tests (todo)"
-    "  ○ Task 3: {FEAT-XXX} - Build with TDD (todo)"
-    "  ○ Task 4: {FEAT-XXX} - Validate & Commit (todo)"
-    ""
-    "Next: Run /plan {FEAT-XXX} to continue"
-```
-
-**Important:**
-- Never block exploration workflow on Archon failures
-- Always allow workflow to complete successfully
-- Archon is optional enhancement, not requirement
 
 ## Important Notes
 

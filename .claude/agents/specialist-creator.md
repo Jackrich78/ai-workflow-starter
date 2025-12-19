@@ -30,7 +30,7 @@ Create comprehensive specialist sub-agent markdown files in <2 minutes using tem
 Load TEMPLATE.md and prepare for placeholder substitution.
 
 **Key Actions:**
-- Read .claude/subagents/TEMPLATE.md
+- Read .claude/agents/TEMPLATE.md
 - Identify all placeholder markers: {{NAME}}, {{DESCRIPTION}}, {{LIBRARY}}, {{TOOLS}}, {{OBJECTIVE}}
 - Preserve template structure (YAML frontmatter, sections, formatting)
 - Time budget: <10 seconds
@@ -110,12 +110,12 @@ Generate kebab-case filename from library name.
 
 ### 5. File Writing
 
-Write specialist file to .claude/subagents/ directory.
+Write specialist file to .claude/agents/ directory.
 
 **Key Actions:**
 - Validate YAML frontmatter structure
 - Ensure all template sections present
-- Write to .claude/subagents/[library-name]-specialist.md
+- Write to .claude/agents/[library-name]-specialist.md
 - Verify file created successfully
 
 **Approach:**
@@ -128,7 +128,7 @@ Write specialist file to .claude/subagents/ directory.
 
 **Available Tools:**
 - **Read**: Load TEMPLATE.md, check existing specialists
-- **Write**: Create specialist file at .claude/subagents/[name]-specialist.md
+- **Write**: Create specialist file at .claude/agents/[name]-specialist.md
 - **WebSearch**: Query official documentation and community resources
 - **Archon RAG Tools** (if MCP configured):
   - `mcp__archon__rag_get_available_sources()` - Find relevant documentation sources
@@ -145,7 +145,7 @@ Write specialist file to .claude/subagents/ directory.
 ## Output Files
 
 **Primary Output:**
-- **Location**: `.claude/subagents/[library-name]-specialist.md`
+- **Location**: `.claude/agents/[library-name]-specialist.md`
 - **Format**: Markdown with YAML frontmatter
 - **Purpose**: Comprehensive specialist sub-agent definition for domain expertise
 
@@ -268,14 +268,14 @@ color: [blue/orange/yellow/green/purple]
 ### Phase 4: File Creation
 1. Validate YAML frontmatter structure
 2. Ensure all sections populated (no TODOs)
-3. Write to .claude/subagents/[library-name]-specialist.md
+3. Write to .claude/agents/[library-name]-specialist.md
 4. Verify file created successfully
 5. Report completion with source attribution
 
 ## Quality Criteria
 
 Before completing work, verify:
-- ✅ File created at .claude/subagents/[library-name]-specialist.md
+- ✅ File created at .claude/agents/[library-name]-specialist.md
 - ✅ Valid YAML frontmatter with required fields (name, description, tools, phase, status, color)
 - ✅ All template sections present and populated
 - ✅ No TODO or placeholder content (except where intentional)
@@ -297,7 +297,7 @@ Before completing work, verify:
 - No other sub-agents
 
 **Updates:**
-- Creates `.claude/subagents/[library-name]-specialist.md`
+- Creates `.claude/agents/[library-name]-specialist.md`
 
 **Reports To:**
 - User with specialist creation summary
@@ -368,14 +368,14 @@ Scope: narrow (default)
    - Integration Points: Next.js integration, FastAPI integration
 
 4. **File Creation (5s):**
-   - Write to: `.claude/subagents/supabase-specialist.md`
+   - Write to: `.claude/agents/supabase-specialist.md`
    - Verify: File created successfully
 
 **Output:**
 ```markdown
 ✅ Specialist Created: Supabase Specialist
 
-File: .claude/subagents/supabase-specialist.md
+File: .claude/agents/supabase-specialist.md
 Created: 2025-10-25 14:32:15
 Total Time: 120 seconds
 

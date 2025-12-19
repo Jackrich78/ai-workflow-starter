@@ -59,6 +59,19 @@ This directory contains specialized sub-agents that orchestrate the AI workflow 
 **Invokes:** None
 **Tools:** Read, Edit, Glob, Grep
 
+#### [Challenger](challenger.md)
+**Phase:** 1 | **Status:** Active | **Color:** Red
+**Description:** Senior engineer that critically reviews proposals inline, iterating with agents on minor issues and escalating real decisions to the human
+**Triggers:** During `/explore` (after PRD), during `/plan` (after architecture)
+**Outputs:** None (conversational feedback, no files)
+**Invokes:** None (terminal reviewer)
+**Tools:** Read, Glob, Grep
+**Key Features:**
+- **Two-tier escalation**: Fixes minor issues via agent iteration, escalates trade-offs to human
+- **Inline feedback**: No documents—feedback flows through conversation
+- **Focused critique**: Max 3 issues per review, ignores minor stuff
+- **Knows when to approve**: Says "proceed" when proposal is solid
+
 ### Creation & Enhancement Agents
 
 #### [Specialist Creator](specialist-creator.md) ✨ NEW
@@ -176,32 +189,30 @@ User Request
     ↓
 /explore [topic]
     ↓
-Explorer Agent
-    ├─→ Library Detection
-    ├─→ Specialist Suggestion (optional)
-    └─→ PRD Creation
-         ↓
-Researcher Agent
-    ├─→ Specialist Invocation (if available)
-    ├─→ Archon RAG / WebSearch
-    └─→ Research Creation
-         ↓
+Explorer Agent → PRD
+    ↓
+Challenger (inline) ──┬── Tier 1: Tell Explorer to fix → Loop back
+                      └── Tier 2: Ask user (trade-offs) → Incorporate choice
+    ↓
+Researcher Agent → Research
+    ↓
 /plan FEAT-XXX
     ↓
-Planner Agent
-    ├─→ Architecture Creation
-    ├─→ Acceptance Criteria
-    ├─→ Testing Strategy
-    ├─→ Test Stubs
-    └─→ Reviewer Validation
-         ↓
-Reviewer Agent
-    └─→ PASS / FAIL
-         ↓
-Documenter Agent
-    ├─→ Update docs/README.md
-    └─→ Update CHANGELOG.md
+Planner Agent → Architecture
+    ↓
+Challenger (inline) ──┬── Tier 1: Tell Planner to fix → Loop back
+                      └── Tier 2: Ask user (trade-offs) → Incorporate choice
+    ↓
+Planner continues → Acceptance, Testing, Test Stubs
+    ↓
+Reviewer Agent → PASS / FAIL
+    ↓
+Documenter Agent → Update indexes
 ```
+
+**Challenger Integration**: No files created. Feedback is conversational:
+- **Tier 1**: Agent-fixable issues → Direct feedback → Agent iterates
+- **Tier 2**: Trade-off decisions → AskUserQuestion → User decides
 
 ## Tool Access by Agent
 
@@ -212,6 +223,7 @@ Documenter Agent
 | Planner | ✅ | ✅ | ✅ | ✅ | - | - | ✅ | - |
 | Reviewer | ✅ | - | - | ✅ | ✅ | - | - | - |
 | Documenter | ✅ | - | ✅ | ✅ | ✅ | - | - | - |
+| Challenger | ✅ | - | - | ✅ | ✅ | - | - | - |
 | Specialist Creator | ✅ | ✅ | - | ✅ | - | ✅ | - | ✅ (optional) |
 | Specialists | ✅ | ✅ | - | - | - | ✅ | - | ✅ (optional) |
 
@@ -220,10 +232,10 @@ Documenter Agent
 **Phase 1 (Complete):** Planning & Documentation Agents ✅
 - Explorer, Researcher, Planner, Reviewer, Documenter
 - Specialist Creator (FEAT-003) ✨
+- Challenger (FEAT-006) ✨ - Critical review before implementation
 
-**Phase 1.5 (Complete):** Archon MCP Integration ✅
+**Phase 1.5 (Complete):** Archon MCP RAG Integration ✅
 - RAG knowledge base for Researcher
-- Task management across workflows
 
 **Phase 2 (Next):** Implementation Agents
 - Main Claude Code agent for TDD implementation
@@ -248,4 +260,4 @@ Documenter Agent
 
 **Note:** This index is manually maintained. Update when adding/removing sub-agents.
 **Template Version:** 1.0.0
-**Last Updated:** 2025-10-25
+**Last Updated:** 2025-12-19

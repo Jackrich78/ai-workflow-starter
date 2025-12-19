@@ -8,13 +8,11 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ## [Unreleased]
 
 ### Added
-- **Phase 1.5: Archon MCP Integration** ✅
+- **Phase 1.5: Archon MCP RAG Integration** ✅
   - RAG knowledge base integration for Researcher agent
   - 5 modern RAG tools (get_sources, search_kb, search_code, list_pages, read_page)
-  - Task management across all workflow commands (/explore, /plan, /build, /test, /commit)
-  - One Archon project per repository model
-  - Feature-as-epic: 4 workflow-phase tasks per FEAT-XXX
-  - Graceful degradation when Archon unavailable
+  - Targeted documentation search by source
+  - Code example discovery capabilities
 - **FEAT-003: Specialist Sub-Agent Creation System** ✅ - Implementation and testing complete ([docs](docs/features/FEAT-003_specialist_subagent_creation/))
   - **Slash Command:** `/create-specialist [library-name] [scope]` for creating specialist sub-agents
   - **Specialist Creator Agent:** Auto-populates specialists in <2 minutes (template + research)
@@ -30,29 +28,26 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ### Changed
 - Researcher agent updated from deprecated `mcp__archon__search` to modern RAG tools
 - Framework-agnostic examples (no specific tool bias)
-- CLAUDE.md expanded with Archon integration documentation
-- All slash commands now update Archon task status
+- CLAUDE.md expanded with Archon RAG integration documentation
 - future-enhancements.md updated to reflect Phase 1.5 completion
 
 ### Phase Roadmap
 - Phase 1 (Complete): Planning & Documentation ✅
-- **Phase 1.5 (Complete): Archon Integration** ✅
+- **Phase 1.5 (Complete): Archon RAG Integration** ✅
 - Phase 2 (Next): Implementation workflow (main agent), testing automation, git workflow
-- Phase 3 (Future): Enhanced Archon (bidirectional sync), stack profiles, advanced automation
+- Phase 3 (Future): Enhanced Archon (bidirectional knowledge sync), stack profiles, advanced automation
 
 ## [1.0.1] - 2025-10-25
 
 ### Added
 - Archon MCP RAG integration for knowledge base searches
-- Archon task management across workflow
 - Targeted documentation search by source
 - Code example discovery capabilities
-- Task lifecycle tracking (todo → doing → review → done)
 
 ### Changed
 - Researcher agent tools updated to modern RAG API
 - Examples made framework-agnostic
-- Documentation index updated with Archon features
+- Documentation index updated with Archon RAG features
 
 ## [1.0.0] - 2025-10-24
 

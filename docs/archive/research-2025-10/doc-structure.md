@@ -49,9 +49,9 @@
 
 ## Archon Integration Proposed:
 
-- **Read-only for v0.1:** `docs.search`, `docs.fetch`, `tasks.list`
+- **Read-only for v0.1:** `docs.search`, `docs.fetch`
 - **Write operations:** Behind `/approve` gates
-- Mistake → SOP loop via Archon task creation (gated)
+- Archon used for knowledge base RAG lookups
 
 ---
 

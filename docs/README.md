@@ -212,13 +212,6 @@ This template includes optional Archon MCP integration for:
 - Falls back to WebSearch gracefully
 - See [integrations.md](system/integrations.md) for setup
 
-### Task Management
-- Workflow-phase tasks created during `/explore`
-- Task status updated by `/plan`, `/build`, `/test`, `/commit`
-- One Archon project per repository
-- Feature-as-epic model: 4 tasks per FEAT-XXX
-- Works perfectly without Archon (graceful degradation)
-
 ## Future Enhancements
 
 See [future-enhancements.md](future-enhancements.md) for Phase 2/3 roadmap:

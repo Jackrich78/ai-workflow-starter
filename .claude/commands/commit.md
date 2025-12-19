@@ -33,39 +33,6 @@ When you run `/commit`, I will:
 7. **Stage files** - Add relevant files to git staging area
 8. **Create commit** - Make the commit with proper metadata
 9. **Optionally create PR** - Use `gh` CLI if you want to create a pull request
-10. **Update Archon task** (if available) - Mark feature complete in Archon
-
-## Archon Task Completion (If Available)
-
-After successful commit, if this is a feature commit (FEAT-XXX detected), mark the feature complete in Archon:
-
-```
-If commit successful AND FEAT-XXX scope detected:
-  If Archon MCP available:
-    Find validation task:
-      tasks = mcp__archon__find_tasks(filter_by="feature", filter_value="FEAT-XXX")
-      validate_task = [t for t in tasks if "Validate & Commit" in t["title"]]
-
-    Mark as done:
-      mcp__archon__manage_task("update",
-        task_id=validate_task["id"],
-        status="done"
-      )
-
-    Print celebration:
-      "🎉 FEAT-XXX complete - all 4 workflow tasks done!"
-      "   ✓ Task 1: Explore & Research"
-      "   ✓ Task 2: Plan Architecture & Tests"
-      "   ✓ Task 3: Build with TDD"
-      "   ✓ Task 4: Validate & Commit"
-      ""
-      "   View in Archon: http://localhost:3737"
-```
-
-**Error Handling:**
-- If Archon unavailable: Skip silently
-- If no tasks found: Skip (not all features use Archon)
-- Never block commit on task update failures
 
 ## Conventional Commit Format
 

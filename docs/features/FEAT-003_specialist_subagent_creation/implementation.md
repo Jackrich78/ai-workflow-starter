@@ -317,7 +317,6 @@ All 24 acceptance criteria from [acceptance.md](acceptance.md) met:
 - [ ] Update docs/README.md with specialist section
 - [ ] Update CHANGELOG.md with FEAT-003 implementation entry
 - [ ] Create .claude/subagents/README.md indexing all sub-agents
-- [ ] Update Archon task status to 'review'
 
 ## Related Documentation
 
@@ -343,8 +342,7 @@ All 24 acceptance criteria from [acceptance.md](acceptance.md) met:
 1. Update documentation index
 2. Update CHANGELOG.md
 3. Create sub-agents README
-4. Update Archon task to 'review' status
-5. Execute validation test: Create Database Specialist
+4. Execute validation test: Create Database Specialist
 
 ---
 

@@ -211,14 +211,20 @@ project/
 
 **Required MCPs:**
 
-1. **Archon** (your existing) - Tasks + Knowledge Base
+1. **Archon** (your existing) - Knowledge Base (RAG)
 2. **Playwright** (from vanzan01) - Browser testing
 3. **GitHub** (add) - PR creation, issue tracking
 
 **Tool Access Matrix:**
 
 ```
-AgentFilesBashArchon TasksArchon DocsWebPlaywrightGitHubPMReadLimitedFullReadNoNoFullResearchReadNoReadFullYesNoReadImplementationFullYesReadReadNoNoNoTestR/WYesReadReadNoFullNoDocumentationW(docs/)LimitedReadFullNoNoNoQuality GateReadNoReadReadNoNoRead
+Agent       | Files | Bash    | Archon Docs | Web | Playwright | GitHub
+PM          | Read  | Limited | Full        | No  | No         | Full
+Research    | Read  | No      | Full        | Yes | No         | Read
+Implementation | Full | Yes  | Read        | No  | No         | No
+Test        | R/W   | Yes     | Read        | No  | Full       | No
+Documentation | W(docs/) | Limited | Full  | No  | No         | No
+Quality Gate | Read | No      | Read        | No  | No         | Read
 ```
 
 ---

@@ -5,7 +5,6 @@
 **Key Features:**
 
 - **Knowledge Base:** Web crawling, document uploads (PDF/docs), RAG search
-- **Task Management:** Project creation, task tracking integrated with knowledge
 - **Real-time Updates:** Socket.IO for live collaboration
 - **MCP Server:** Connects to Claude Code, Cursor, Windsurf, etc.
 - **Agents Service:** PydanticAI-based agents for document/RAG operations
@@ -21,9 +20,8 @@
 ### Archon's Role:
 
 1. **Central Memory:** Store scraped documentation, framework references, library docs
-2. **Project Planning:** Track tasks, features, PRDs, technical specs
-3. **Context Provider:** Feed relevant docs to AI assistants via MCP
-4. **Agent Orchestration:** PydanticAI agents already built in
+2. **Context Provider:** Feed relevant docs to AI assistants via MCP
+3. **Agent Orchestration:** PydanticAI agents already built in
 
 ### Questions Emerging:
 
@@ -36,10 +34,8 @@
 
 `[Archon Knowledge Base] ← Crawled Docs + PDFs
          ↓
-[Project in Archon] ← Tasks, PRDs, Features
-         ↓
 [MCP Connection] → Claude/AI Assistant
          ↓
 [Sub-Agents] ← Access Archon knowledge
          ↓
-[Development Flow] → Updates back to Archon tasks`
+[Development Flow] → Queries Archon knowledge base`

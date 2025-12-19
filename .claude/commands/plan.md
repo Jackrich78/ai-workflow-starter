@@ -104,6 +104,62 @@ Task(
 )
 ```
 
+### Step 2.5: Challenger Review (Inline)
+
+After architecture is created, apply Challenger review before proceeding.
+
+**Challenger Focus at Architecture Stage**: Over-engineering and trade-offs
+
+**Review the architecture for**:
+1. **Over-engineering**: Is the recommended approach the simplest that works?
+2. **Build vs. buy**: Are we building custom when off-the-shelf exists?
+3. **Unvalidated assumptions**: What assumptions in the comparison matrix haven't been tested?
+4. **Spike gaps**: Does the spike plan actually validate the key risks?
+5. **Complexity justification**: Is the complexity matched to the actual requirements?
+
+**Two-Tier Response**:
+
+**Tier 1 (Agent-fixable)**: If issues found, tell Planner to fix:
+```
+CHALLENGER FEEDBACK:
+
+Issue: [Specific problem - e.g., "Custom RBAC for 2 roles is over-engineered"]
+Location: [architecture.md section]
+Fix: [Exact change - e.g., "Replace with simple role field + middleware check"]
+
+Please update architecture and re-submit.
+```
+→ Planner updates architecture.md → Re-review → Continue when approved
+
+**Tier 2 (Human-required)**: If genuine trade-offs exist, ask user:
+```
+Use AskUserQuestion tool with:
+- Question: Frame the trade-off clearly
+- Options: 2-3 choices with honest trade-offs
+- No "right answer" - genuine decision needed
+```
+
+Example:
+```json
+{
+  "questions": [{
+    "question": "The architecture proposes Option 3 (custom solution). Option 2 (off-the-shelf) is simpler but less flexible. Which matters more for this project?",
+    "header": "Approach",
+    "options": [
+      {"label": "Simpler (Option 2)", "description": "Ships faster, less control, may need rework if requirements expand"},
+      {"label": "Flexible (Option 3)", "description": "More work now, handles future needs, higher maintenance"},
+      {"label": "Start simple, migrate later", "description": "Ship Option 2 now, rebuild if flexibility needed"}
+    ],
+    "multiSelect": false
+  }]
+}
+```
+→ Incorporate user's choice → Update architecture rationale → Continue
+
+**No Issues?** Say "No major concerns with architecture. Proceeding to acceptance criteria."
+
+**Iteration Loop**: Challenger may request fixes up to 2 times. If still not resolved, escalate to user.
+
 ### Step 3: Reviewer Validation
 
 The Planner will automatically invoke the Reviewer agent. Wait for validation results.
@@ -115,56 +171,7 @@ The Planner will automatically invoke the Reviewer agent. Wait for validation re
 4. Repeat until PASS
 
 **If Reviewer returns PASS:**
-1. Proceed to Archon task update (if available)
-2. Then proceed to documentation update
-
-### Step 3.5: Update Archon Task Status (If Available)
-
-If Archon MCP is available and tasks exist for this feature, mark planning complete.
-
-**Find Planning Task:**
-```
-Try to find tasks for this feature:
-  tasks = mcp__archon__find_tasks(filter_by="feature", filter_value="$ARGUMENTS")
-
-If tasks found:
-  Find planning task:
-    planning_task = [t for t in tasks if "Plan Architecture" in t["title"]]
-
-  If planning task exists:
-    Mark as done:
-      mcp__archon__manage_task("update",
-        task_id=planning_task["id"],
-        status="done"
-      )
-```
-
-**Report to User:**
-```
-If task updated successfully:
-  Print:
-    "✅ Marked Archon task complete: $ARGUMENTS - Plan Architecture & Tests"
-    "   Next: Run /build $ARGUMENTS to begin implementation"
-```
-
-**Error Handling (Graceful Degradation):**
-```
-If Archon MCP unavailable:
-  Skip silently, continue to Step 4
-
-If no tasks found for this feature:
-  Skip (user may not have run /explore with Archon)
-  Continue to Step 4
-
-If task update fails:
-  Log warning but continue workflow
-  Never block planning workflow on Archon failures
-```
-
-**Important:**
-- This step is entirely optional
-- Planning workflow must complete successfully with or without Archon
-- Task updates are best-effort only
+1. Proceed to documentation update
 
 ### Step 4: Update Documentation Index
 
